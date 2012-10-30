@@ -30,8 +30,10 @@
 #pragma - MMGridViewDataSource
 
 @protocol MMGridViewDataSource<NSObject>
-- (NSInteger)numberOfCellsInGridView:(MMGridView *)gridView;
-- (MMGridViewCell *)gridView:(MMGridView *)gridView cellAtIndex:(NSUInteger)index;
+- (CGSize)itemSizeInGridView:(MMGridView *)gridView;
+- (NSUInteger)numberOfSectionsInGridView:(MMGridView *)gridView;
+- (NSUInteger)gridView:(MMGridView *)gridView numberOfCellsInSection:(NSUInteger)section;
+- (MMGridViewCell *)gridView:(MMGridView *)gridView cellAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 // ----------------------------------------------------------------------------------
@@ -49,6 +51,15 @@
 
 #pragma - MMGridView
 
+
+typedef enum {
+    MMGridViewLayoutPagedHorizontal = 0,
+    MMGridViewLayoutPagedVertical = 1,
+    MMGridViewLayoutHorizontal = 3,         //  in that case item views arranged from top-to-bottom, from left-to-right
+    MMGridViewLayoutVertical = 4
+} MMGridViewLayout;
+
+
 @interface MMGridView : UIView<UIScrollViewDelegate> 
 {
     @private
@@ -58,16 +69,19 @@
     NSUInteger numberOfRows;
     NSUInteger numberOfColumns;
     NSUInteger cellMargin;
+    CGSize itemSize;
 }
 
 @property (nonatomic, retain, readonly) UIScrollView *scrollView;
 @property (nonatomic, assign) IBOutlet id<MMGridViewDataSource> dataSource;
 @property (nonatomic, assign) IBOutlet id<MMGridViewDelegate> delegate;
-@property (nonatomic) NSUInteger numberOfRows;
-@property (nonatomic) NSUInteger numberOfColumns;
-@property (nonatomic) NSUInteger cellMargin;
-@property (nonatomic, readonly) NSUInteger currentPageIndex;
+
+@property (nonatomic, readonly) MMGridViewLayout layout;    //  you can set it in the MMGridView.xib
+@property (nonatomic, readonly) NSUInteger numberOfRows;
+@property (nonatomic, readonly) NSUInteger numberOfColumns;
 @property (nonatomic, readonly) NSUInteger numberOfPages;
+@property (nonatomic, readonly) NSUInteger currentPageIndex;
+@property (nonatomic) NSUInteger cellMargin;
 
 - (void)reloadData;
 

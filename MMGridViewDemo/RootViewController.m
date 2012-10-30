@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2010-2011 RenŽ Sprotte, Provideal GmbH
+// Copyright (c) 2010-2011 Renï¿½ Sprotte, Provideal GmbH
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -35,8 +35,7 @@
 
 #pragma - Object lifecycle
 
-- (void)dealloc
-{
+- (void)dealloc {
     [gridView release];
     [pageControl release];
     [super dealloc];
@@ -94,17 +93,26 @@
 
 #pragma - MMGridViewDataSource
 
-- (NSInteger)numberOfCellsInGridView:(MMGridView *)gridView
+- (CGSize)itemSizeInGridView:(MMGridView *)_
 {
-    return 42;
+    return CGSizeMake(106, 92);
+}
+
+- (NSUInteger)numberOfSectionsInGridView:(MMGridView *)_
+{
+    return 5;
+}
+
+- (NSUInteger)gridView:(MMGridView *)gridView numberOfCellsInSection:(NSUInteger)section {
+    return 25;
 }
 
 
-- (MMGridViewCell *)gridView:(MMGridView *)gridView cellAtIndex:(NSUInteger)index
-{
+- (MMGridViewCell *)gridView:(MMGridView *)_ cellAtIndexPath:(NSIndexPath *)indexPath {
     MMGridViewDefaultCell *cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectNull] autorelease];
-    cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", index];
+    cell.textLabel.text = [NSString stringWithFormat:@"Cell %d[%d]", indexPath.section, indexPath.row];
     cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell-image.png"]];
+    cell.frame = CGRectMake(0, 0, 106, 92);
     return cell;
 }
 
@@ -112,7 +120,7 @@
 
 #pragma - MMGridViewDelegate
 
-- (void)gridView:(MMGridView *)gridView didSelectCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
+- (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
 {
     AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
@@ -120,7 +128,7 @@
 }
 
 
-- (void)gridView:(MMGridView *)gridView didDoubleTapCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
+- (void)gridView:(MMGridView *)_ didDoubleTapCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
                                                     message:[NSString stringWithFormat:@"Cell at index %d was double tapped.", index]
