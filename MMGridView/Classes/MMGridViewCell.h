@@ -26,10 +26,9 @@
 @interface MMGridViewCell : UIView 
 {
     MMGridView *gridView;
-    NSInteger index;
 }
 
 @property (nonatomic, readonly) MMGridView *gridView;
-@property (nonatomic, readonly) NSInteger index;
+@property (nonatomic, readonly) NSIndexPath *indexPath;
 
 @end

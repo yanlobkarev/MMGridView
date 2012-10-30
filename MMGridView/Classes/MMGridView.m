@@ -23,6 +23,12 @@
 #import "MMGridView.h"
 
 
+@interface MMGridViewCell (Private)
+@property (nonatomic, retain) MMGridView *indexPath;
+@property (nonatomic, assign) MMGridView *gridView;
+@end
+
+
 @interface MMGridView()
 
 @property (nonatomic, retain) UIScrollView *scrollView;
@@ -198,6 +204,8 @@
         for (NSIndexPath *path in paths) {
             MMGridViewCell *cell = [self.dataSource gridView:self cellAtIndexPath:path];
             cell.center = [self _centerForIndexPath:path];
+            cell.gridView = self;
+            cell.indexPath = path;
             [scrollView addSubview:cell];
         }
     }
@@ -272,19 +280,33 @@
     [self setNeedsDisplay];
 }
 
+- (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath == %@", MMGridViewCell.class, self, indexPath];
+    NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
+    switch (results.count) {
+        case 0: return nil;
+        case 1: return results.lastObject;
+        default: {
+            NSLog(@"~ WTF! There is more than one cells:\n%@;\n with that path: %@ ~", results, indexPath);
+            return results.lastObject;
+        }
+    }
+}
+
 
 - (void)cellWasSelected:(MMGridViewCell *)cell
 {
-    if (delegate && [delegate respondsToSelector:@selector(gridView:didSelectCell:atIndex:)]) {
-        [delegate gridView:self didSelectCell:cell atIndex:cell.index];
+    if (delegate && [delegate respondsToSelector:@selector(gridView:didSelectCell:atIndexPath:)]) {
+        [delegate gridView:self didSelectCell:cell atIndexPath:cell.indexPath];
     }
 }
 
 
 - (void)cellWasDoubleTapped:(MMGridViewCell *)cell
 {
-    if (delegate && [delegate respondsToSelector:@selector(gridView:didDoubleTapCell:atIndex:)]) {
-        [delegate gridView:self didDoubleTapCell:cell atIndex:cell.index];
+    if (delegate && [delegate respondsToSelector:@selector(gridView:didDoubleTapCell:atIndexPath:)]) {
+        [delegate gridView:self didDoubleTapCell:cell atIndexPath:cell.indexPath];
     }
 }
 

@@ -42,8 +42,8 @@
 
 @protocol MMGridViewDelegate<NSObject>
 @optional
-- (void)gridView:(MMGridView *)gridView didSelectCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index;
-- (void)gridView:(MMGridView *)gridView didDoubleTapCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index;
+- (void)gridView:(MMGridView *)gridView didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)gridView:(MMGridView *)gridView didDoubleTapCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)gridView:(MMGridView *)gridView changedPageToIndex:(NSUInteger)index;
 @end
 
@@ -84,5 +84,6 @@ typedef enum {
 @property (nonatomic) NSUInteger cellMargin;
 
 - (void)reloadData;
+- (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath;
 
 @end

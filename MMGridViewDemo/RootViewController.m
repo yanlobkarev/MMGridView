@@ -103,7 +103,7 @@
     return 5;
 }
 
-- (NSUInteger)gridView:(MMGridView *)gridView numberOfCellsInSection:(NSUInteger)section {
+- (NSUInteger)gridView:(MMGridView *)_ numberOfCellsInSection:(NSUInteger)section {
     return 25;
 }
 
@@ -120,7 +120,7 @@
 
 #pragma - MMGridViewDelegate
 
-- (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
+- (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
     [self.navigationController pushViewController:c animated:YES];
@@ -128,10 +128,10 @@
 }
 
 
-- (void)gridView:(MMGridView *)_ didDoubleTapCell:(MMGridViewCell *)cell atIndex:(NSUInteger)index
+- (void)gridView:(MMGridView *)_ didDoubleTapCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:[NSString stringWithFormat:@"Cell at index %d was double tapped.", index]
+                                                    message:[NSString stringWithFormat:@"Cell at index %@ was double tapped.", indexPath]
                                                    delegate:nil 
                                           cancelButtonTitle:@"Cool!" 
                                           otherButtonTitles:nil];

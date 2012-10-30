@@ -23,6 +23,7 @@
 
 
 @interface MMGridViewCell()
+@property (nonatomic, retain) MMGridView *indexPath;
 @property (nonatomic, assign) MMGridView *gridView;
 @end
 
@@ -30,10 +31,11 @@
 @implementation MMGridViewCell
 
 @synthesize gridView;
-@synthesize index;
+@synthesize indexPath;
 
 - (void)dealloc
 {
+    [indexPath release];
     [super dealloc];
 }
 
@@ -47,9 +49,9 @@
 }
 
 
-- (void)setIndex:(NSNumber *)theIndex
+- (void)setIndexPath:(NSIndexPath *)anIndexPath
 {
-    index = [theIndex intValue];
+    indexPath = [anIndexPath retain];
 }
 
 // ----------------------------------------------------------------------------------
