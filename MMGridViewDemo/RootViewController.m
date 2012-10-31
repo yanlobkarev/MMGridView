@@ -101,7 +101,7 @@
 }
 
 - (MMGridLayoutType)layoutTypeInGridView:(MMGridView *)_ {
-    return MMGridLayoutPagedVertical;
+    return layoutType;
 }
 
 - (NSUInteger)numberOfSectionsInGridLayout:(MMGridLayout *)layout
@@ -116,10 +116,12 @@
 
 - (MMGridViewCell *)gridView:(MMGridView *)_ cellAtIndexPath:(NSIndexPath *)indexPath
 {
-    MMGridViewDefaultCell *cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectNull] autorelease];
+    MMGridViewDefaultCell *cell = [gridView dequeueReusableCellOfClass:[MMGridViewDefaultCell class]];
+    if (cell == nil) {
+        cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectMake(0, 0, 106, 92)] autorelease];
+    }
     cell.textLabel.text = [NSString stringWithFormat:@"Cell %d[%d]", indexPath.section, indexPath.row];
     cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell-image.png"]];
-    cell.frame = CGRectMake(0, 0, 106, 92);
     return cell;
 }
 
@@ -138,7 +140,6 @@
 
 - (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    [gridView replaceCell:cell withCell:[self _replacementCell]];
 //    AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
 //    [self.navigationController pushViewController:c animated:YES];
 //    [c release];

@@ -26,6 +26,7 @@
 {
     IBOutlet MMGridView *gridView;
     IBOutlet UIPageControl *pageControl;
+    MMGridLayoutType layoutType;
 }
 
 @end

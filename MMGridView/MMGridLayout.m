@@ -1,3 +1,4 @@
+#import <CoreGraphics/CoreGraphics.h>
 #import "MMGridLayout.h"
 
 
@@ -17,29 +18,81 @@
     return result;
 }
 
+- (CGRect)_rect4Section:(NSUInteger)section {
+    CGRect rect = scrollView.bounds;
+    switch (layout) {
+        case  MMGridLayoutPagedHorizontal: {
+            rect.origin.x = section * rect.size.width;
+            break;
+        }
+        case  MMGridLayoutPagedVertical: {
+            rect.origin.y = section * rect.size.height;
+            break;
+        }
+        default: {
+            rect.size = scrollView.contentSize;
+        }
+    }
+    return rect;
+}
+
+- (CGRect)_visibleRect
+{
+    CGRect rect = scrollView.bounds;
+    rect.origin = scrollView.contentOffset;
+    return rect;
+}
+
+- (NSMutableIndexSet *)_visibleSections {
+
+    NSMutableIndexSet *visibleSections = [NSMutableIndexSet indexSet];
+    CGRect visibleRect = [self _visibleRect];
+
+    for (NSUInteger section = 0; section < [dataSource numberOfSectionsInGridLayout:self]; section++) {
+        CGRect sectionRect = [self _rect4Section:section];
+        if (CGRectIntersectsRect(sectionRect, visibleRect)) {
+            [visibleSections addIndex:section];
+        }
+    }
+    return visibleSections;
+}
+
+- (NSMutableIndexSet *)_visibleIndexesInSection:(NSUInteger)section {
+
+    NSMutableIndexSet *indices = [NSMutableIndexSet indexSet];
+    CGRect visibleRect = [self _visibleRect];
+
+    for (NSUInteger index=0; index<[dataSource gridLayout:self numberOfCellsInSection:section]; index++) {
+        CGPoint center = [self centerForIndexPath:[NSIndexPath indexPathForRow:index inSection:section]];
+        CGRect itemRect;
+        itemRect.origin.x = center.x - itemSize.width/2;
+        itemRect.origin.y = center.y - itemSize.height/2;
+        itemRect.size = itemSize;
+
+        if (CGRectIntersectsRect(visibleRect, itemRect)) {
+            [indices addIndex:index];
+        }
+    }
+
+    return indices;
+}
+
 - (NSMutableSet *)visibleIndexPaths
 {
     NSMutableSet *paths = [NSMutableSet set];
+    NSMutableIndexSet *sections = [self _visibleSections];
 
-    NSUInteger sections = 1;
-    switch (layout) {
-        case MMGridLayoutHorizontal:
-        case MMGridLayoutVertical: {
-            sections = 1;
-            break;
+    NSUInteger section = sections.firstIndex;
+    while (section != NSNotFound) {
+
+        NSMutableIndexSet *indices = [self _visibleIndexesInSection:section];
+        NSUInteger index = indices.firstIndex;
+        while (index != NSNotFound) {
+
+            [paths addObject:[NSIndexPath indexPathForRow:index inSection:section]];
+            index = [indices indexGreaterThanIndex:index];
         }
-        case MMGridLayoutPagedHorizontal:
-        case MMGridLayoutPagedVertical: {
-            sections = [dataSource numberOfSectionsInGridLayout:self];
-        }
-
-    }
-
-    for (NSUInteger section=0; section<sections; section++) {
-
-        for (NSUInteger row=0; row<[dataSource gridLayout:self numberOfCellsInSection:sections]; row++) {
-            [paths addObject:[NSIndexPath indexPathForRow:row inSection:section]];
-        }
+        section = [sections indexGreaterThanIndex:section];
     }
     return paths;
 }

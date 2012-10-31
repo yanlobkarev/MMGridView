@@ -63,6 +63,7 @@
     NSUInteger numberOfColumns;
     NSUInteger cellMargin;
     CGSize itemSize;
+    NSMutableDictionary *reusable;
 }
 
 @property (nonatomic, retain, readonly) UIScrollView *scrollView;
@@ -77,6 +78,8 @@
 @property (nonatomic) NSUInteger cellMargin;
 
 - (void)reloadData;
+- (NSArray *)allSubviewCells;
+- (id)dequeueReusableCellOfClass:(Class)class;
 - (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath;
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 

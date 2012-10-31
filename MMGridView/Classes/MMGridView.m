@@ -30,6 +30,7 @@
 @property (nonatomic, assign) MMGridLayout *layout;
 @property (nonatomic) NSUInteger currentPageIndex;
 
+- (void)reuseCell:(MMGridViewCell *)cell;
 - (void)createSubviews;
 - (void)cellWasSelected:(MMGridViewCell *)cell;
 - (void)cellWasDoubleTapped:(MMGridViewCell *)cell;
@@ -51,6 +52,8 @@
 {
     [scrollView release];
     [layout release];
+    [reusable removeAllObjects];
+    [reusable release];
     [super dealloc];
 }
 
@@ -59,6 +62,7 @@
 {
     if ((self = [super initWithFrame:frame])) {
         [self createSubviews];
+        reusable = [NSMutableDictionary new];
     }
     
     return self;
@@ -69,6 +73,7 @@
 {
     if ((self = [super initWithCoder:aDecoder])) {
         [self createSubviews];
+        reusable = [NSMutableDictionary new];
     }
     
     return self;
@@ -100,25 +105,46 @@
     [self reloadData];
 }
 
+- (void)_layoutSubviews
+{
+    if (self.dataSource == nil) return;
+
+    self.scrollView.pagingEnabled = self.layout.pagingEnabled;
+    [self.scrollView setContentSize:layout.contentSize];
+
+    NSMutableSet *visiblePaths = layout.visibleIndexPaths;
+    NSArray *cells = [self allSubviewCells];
+
+    for (MMGridViewCell *cell in cells) {
+        if ([visiblePaths containsObject:cell.indexPath]) {
+
+            cell.center = [layout centerForIndexPath:cell.indexPath];
+            [visiblePaths removeObject:cell.indexPath];
+        } else {
+
+            //  since it cell is not visible
+            //  we remove 'em
+            [self reuseCell:cell];
+            [cell removeFromSuperview];
+        }
+    }
+
+    //  left index-paths are cells
+    //  which missed on screen
+    //  so we should add them
+    for (NSIndexPath *path in visiblePaths) {
+
+        MMGridViewCell *cell = [dataSource gridView:self cellAtIndexPath:path];
+        cell.center = [layout centerForIndexPath:path];
+        cell.gridView = self;
+        cell.indexPath = path;
+        [scrollView addSubview:cell];
+    }
+}
 
 - (void)drawRect:(CGRect)rect
 {
-    if (self.dataSource) {
-
-        self.scrollView.pagingEnabled = layout.pagingEnabled;
-        [self.scrollView setContentSize:layout.contentSize];
-        [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
-        NSMutableSet *paths = layout.visibleIndexPaths;
-
-        for (NSIndexPath *path in paths) {
-            MMGridViewCell *cell = [self.dataSource gridView:self cellAtIndexPath:path];
-            cell.center = [layout centerForIndexPath:path];
-            cell.gridView = self;
-            cell.indexPath = path;
-            [scrollView addSubview:cell];
-        }
-    }
+    [self _layoutSubviews];
 }
 
 - (void)setDataSource:(id<MMGridViewDataSource>)aDataSource
@@ -162,7 +188,16 @@
 
 - (void)reloadData
 {
-    [self setNeedsDisplay];
+    self.layout = nil;
+    [[self allSubviewCells] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self _layoutSubviews];
+}
+
+- (NSArray *)allSubviewCells
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@)", MMGridViewCell.class];
+    NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
+    return results;
 }
 
 - (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath
@@ -223,6 +258,11 @@
 
 #pragma - UIScrollViewDelegate
 
+- (void)scrollViewDidScroll:(UIScrollView *)_
+{
+    [self _layoutSubviews];
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)_
 {
     [self updateCurrentPageIndex];
@@ -234,4 +274,20 @@
     [self updateCurrentPageIndex];
 }
 
+#pragma mark Reusing cells
+
+- (void)reuseCell:(MMGridViewCell *)cell {
+    NSString *key = NSStringFromClass(cell.class);
+    [reusable setObject:cell forKey:key];
+}
+
+- (id)dequeueReusableCellOfClass:(Class)class {
+    NSString *key = NSStringFromClass(class);
+    MMGridViewCell *cell = [[[reusable objectForKey:key] retain] autorelease];
+    [reusable removeObjectForKey:key];
+    return cell;
+}
+
 @end
+
+
