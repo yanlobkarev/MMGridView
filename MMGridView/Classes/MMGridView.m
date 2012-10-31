@@ -32,6 +32,7 @@
 @interface MMGridView()
 
 @property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) MMGridLayout *layout;
 @property (nonatomic) NSUInteger currentPageIndex;
 
 - (void)createSubviews;
@@ -54,6 +55,7 @@
 - (void)dealloc
 {
     [scrollView release];
+    [layout release];
     [super dealloc];
 }
 
@@ -104,106 +106,19 @@
 }
 
 
-- (NSMutableSet *)_visibleIndexPaths {
-    NSMutableSet *paths = [NSMutableSet set];
-
-    NSUInteger sections = 1;
-    switch (layout) {
-        case MMGridViewLayoutHorizontal:
-        case MMGridViewLayoutVertical: {
-            sections = 1;
-            break;
-        }
-        case MMGridViewLayoutPagedHorizontal:
-        case MMGridViewLayoutPagedVertical: {
-            sections = [dataSource numberOfSectionsInGridView:self];
-        }
-
-    }
-
-    for (NSUInteger section=0; section<sections; section++) {
-
-        for (NSUInteger row=0; row<[dataSource gridView:self numberOfCellsInSection:sections]; row++) {
-            [paths addObject:[NSIndexPath indexPathForRow:row inSection:section]];
-        }
-    }
-    return paths;
-}
-
-- (CGPoint)_sectionOffset:(NSUInteger)section {
-    switch (layout) {
-        case MMGridViewLayoutPagedHorizontal: {
-            return CGPointMake(scrollView.frame.size.width * section, 0);
-        }
-        case MMGridViewLayoutPagedVertical: {
-            return CGPointMake(0, scrollView.frame.size.height * section);
-        }
-        default: {
-            return CGPointZero;
-        }
-    }
-}
-
-- (CGPoint)_centerForIndexPath:(NSIndexPath *)path {
-    CGPoint center = [self _sectionOffset:(NSUInteger)path.section];
-
-    NSUInteger row;
-    NSUInteger column;
-
-    if (layout == MMGridViewLayoutHorizontal) {
-        row = (NSUInteger) path.row % self.numberOfRows;
-        column = (NSUInteger) path.row / self.numberOfRows;
-    } else {
-        row = (NSUInteger) path.row / self.numberOfColumns;
-        column = (NSUInteger) path.row % self.numberOfColumns;
-    }
-
-    center.y += (row + 0.5) * itemSize.height;
-    center.x += (column + 0.5) * itemSize.width;
-
-    return center;
-}
-
-- (CGSize)_contentSize {
-    CGSize size = scrollView.frame.size;
-    NSUInteger sections = [dataSource numberOfSectionsInGridView:self];
-    switch (layout) {
-        case MMGridViewLayoutPagedHorizontal: {
-            size.width *= sections;
-            break;
-        }
-        case MMGridViewLayoutPagedVertical: {
-            size.height *= sections;
-            break;
-        }
-        case MMGridViewLayoutHorizontal: {
-            CGFloat columnsWidth = self.numberOfColumns * itemSize.width;
-            size.width = MAX(size.width, columnsWidth);
-            break;
-        }
-        case MMGridViewLayoutVertical: {
-            CGFloat rowsHeight = self.numberOfRows * itemSize.height;
-            size.height = MAX(size.height, rowsHeight);
-            break;
-        }
-
-    }
-    return size;
-}
-
 - (void)drawRect:(CGRect)rect
 {
     if (self.dataSource) {
 
-        self.scrollView.pagingEnabled = (layout == MMGridViewLayoutPagedHorizontal || layout == MMGridViewLayoutPagedVertical);
-        [self.scrollView setContentSize:[self _contentSize]];
+        self.scrollView.pagingEnabled = layout.pagingEnabled;
+        [self.scrollView setContentSize:layout.contentSize];
         [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-        NSMutableSet *paths = [self _visibleIndexPaths];
+        NSMutableSet *paths = layout.visibleIndexPaths;
 
         for (NSIndexPath *path in paths) {
             MMGridViewCell *cell = [self.dataSource gridView:self cellAtIndexPath:path];
-            cell.center = [self _centerForIndexPath:path];
+            cell.center = [layout centerForIndexPath:path];
             cell.gridView = self;
             cell.indexPath = path;
             [scrollView addSubview:cell];
@@ -211,55 +126,12 @@
     }
 }
 
-
 - (void)setDataSource:(id<MMGridViewDataSource>)aDataSource
 {
     dataSource = aDataSource;
     itemSize = [dataSource itemSizeInGridView:self];
+    self.layout = nil;
     [self reloadData];
-}
-
-
-- (NSUInteger)numberOfColumns
-{
-    switch (layout) {
-        case MMGridViewLayoutPagedHorizontal:
-        case MMGridViewLayoutPagedVertical:
-        case MMGridViewLayoutVertical: {
-            return (NSUInteger) scrollView.frame.size.width / (NSUInteger) itemSize.width;
-        }
-        case MMGridViewLayoutHorizontal: {
-            NSUInteger rows = self.numberOfRows;
-            NSUInteger count = [dataSource gridView:self numberOfCellsInSection:0];
-            NSUInteger columns = count / rows;
-            if (count % rows > 0) {
-                columns += 1;
-            }
-            return columns;
-        }
-        default: return 0;
-    }
-}
-
-- (NSUInteger)numberOfRows
-{
-    switch (layout) {
-        case MMGridViewLayoutPagedHorizontal:
-        case MMGridViewLayoutPagedVertical:
-        case MMGridViewLayoutHorizontal: {
-            return (NSUInteger) scrollView.frame.size.height / (NSUInteger) itemSize.height;
-        }
-        case MMGridViewLayoutVertical: {
-            NSUInteger columns = self.numberOfColumns;
-            NSUInteger count = [dataSource gridView:self numberOfCellsInSection:0];
-            NSUInteger rows = count / columns;
-            if (count % columns > 0) {
-                rows += 1;
-            }
-            return rows;
-        }
-        default: return 0;
-    }
 }
 
 - (void)setCellMargin:(NSUInteger)value
@@ -268,10 +140,28 @@
     [self reloadData];
 }
 
+- (MMGridLayout *)layout
+{
+    if (layout == nil) {
+        MMGridLayoutType layoutType = [dataSource layoutTypeInGridView:self];
+        self.layout = [MMGridLayout gridLayoutWithType:layoutType itemSize:itemSize dataSource:dataSource andScrollView:scrollView];
+    }
+    return layout;
+}
+
+- (NSUInteger)numberOfRows
+{
+    return self.layout.numberOfRows;
+}
+
+- (NSUInteger)numberOfColumns
+{
+    return self.layout.numberOfColumns;
+}
 
 - (NSUInteger)numberOfPages
 {
-    return [dataSource numberOfSectionsInGridView:self];
+    return self.layout.numberOfSections;
 }
 
 
@@ -310,21 +200,9 @@
     }
 }
 
-
 - (void)updateCurrentPageIndex
 {
-    CGSize pageSize = scrollView.frame.size;
-    NSUInteger page = 0;
-    switch (layout) {
-        case MMGridViewLayoutPagedHorizontal: {
-            page = (NSUInteger) floor((scrollView.contentOffset.x - pageSize.width / 2) / pageSize.width) + 1;
-            break;
-        }
-        case MMGridViewLayoutPagedVertical : {
-            page = (NSUInteger) floor((scrollView.contentOffset.y - pageSize.height / 2) / pageSize.height) + 1;
-            break;
-        }
-    }
+    NSUInteger page = [layout currentSectionInScrollView];
 
     if (page != self.currentPageIndex) {
         self.currentPageIndex = page;

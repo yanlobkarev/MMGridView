@@ -98,13 +98,17 @@
     return CGSizeMake(106, 92);
 }
 
-- (NSUInteger)numberOfSectionsInGridView:(MMGridView *)_
+- (MMGridLayoutType)layoutTypeInGridView:(MMGridView *)_ {
+    return MMGridLayoutPagedVertical;
+}
+
+- (NSUInteger)numberOfSectionsInGridLayout:(MMGridLayout *)layout
 {
     return 5;
 }
 
-- (NSUInteger)gridView:(MMGridView *)_ numberOfCellsInSection:(NSUInteger)section {
-    return 25;
+- (NSUInteger)gridLayout:(MMGridLayout *)layout numberOfCellsInSection:(NSUInteger)section {
+    return 5;
 }
 
 
