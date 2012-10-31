@@ -48,6 +48,11 @@
     indexPath = [anIndexPath retain];
 }
 
+- (void)setGridView:(MMGridView *)aGridView
+{
+    gridView = aGridView;
+}
+
 // ----------------------------------------------------------------------------------
 
 #pragma - Touch event handling

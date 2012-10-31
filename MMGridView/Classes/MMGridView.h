@@ -78,5 +78,6 @@
 
 - (void)reloadData;
 - (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath;
+- (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 
 @end

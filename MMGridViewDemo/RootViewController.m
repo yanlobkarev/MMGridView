@@ -127,11 +127,21 @@
 
 #pragma - MMGridViewDelegate
 
+- (MMGridViewCell *)_replacementCell {
+    MMGridViewDefaultCell *cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectNull] autorelease];
+    cell.textLabel.text = [NSString stringWithFormat:@"<< Replacement >>"];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.backgroundView.backgroundColor = [UIColor redColor];
+    cell.frame = CGRectMake(0, 0, 106, 92);
+    return cell;
+}
+
 - (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
-    [self.navigationController pushViewController:c animated:YES];
-    [c release];
+    [gridView replaceCell:cell withCell:[self _replacementCell]];
+//    AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
+//    [self.navigationController pushViewController:c animated:YES];
+//    [c release];
 }
 
 

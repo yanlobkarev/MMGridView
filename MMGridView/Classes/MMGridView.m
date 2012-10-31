@@ -179,6 +179,18 @@
     }
 }
 
+- (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell
+{
+    if (oldCell.superview != scrollView) return;
+    if (oldCell.indexPath == nil) return;
+    if (newCell == nil) return;
+
+    newCell.center = [self.layout centerForIndexPath:oldCell.indexPath];
+    newCell.indexPath = oldCell.indexPath;
+
+    [scrollView insertSubview:newCell aboveSubview:oldCell];
+    [oldCell removeFromSuperview];
+}
 
 - (void)cellWasSelected:(MMGridViewCell *)cell
 {
