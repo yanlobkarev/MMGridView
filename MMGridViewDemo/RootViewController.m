@@ -35,14 +35,16 @@
 
 #pragma - Object lifecycle
 
-- (void)dealloc {
+- (void)dealloc
+{
     [gridView release];
     [pageControl release];
     [super dealloc];
 }
 
 
-- (void)viewDidUnload {
+- (void)viewDidUnload
+{
     [gridView release];
     gridView = nil;
     [pageControl release];
@@ -112,7 +114,8 @@
 }
 
 
-- (MMGridViewCell *)gridView:(MMGridView *)_ cellAtIndexPath:(NSIndexPath *)indexPath {
+- (MMGridViewCell *)gridView:(MMGridView *)_ cellAtIndexPath:(NSIndexPath *)indexPath
+{
     MMGridViewDefaultCell *cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectNull] autorelease];
     cell.textLabel.text = [NSString stringWithFormat:@"Cell %d[%d]", indexPath.section, indexPath.row];
     cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell-image.png"]];

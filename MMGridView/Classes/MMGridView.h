@@ -69,7 +69,7 @@
 @property (nonatomic, assign) IBOutlet id<MMGridViewDataSource> dataSource;
 @property (nonatomic, assign) IBOutlet id<MMGridViewDelegate> delegate;
 
-@property (nonatomic, readonly) MMGridLayout *layout;    //  you can set it in the MMGridView.xib
+@property (nonatomic, readonly) MMGridLayout *layout;
 @property (nonatomic, readonly) NSUInteger numberOfRows;
 @property (nonatomic, readonly) NSUInteger numberOfColumns;
 @property (nonatomic, readonly) NSUInteger numberOfPages;

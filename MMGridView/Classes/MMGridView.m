@@ -20,19 +20,14 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
+#import "MMGridViewCell+Private.h"
 #import "MMGridView.h"
-
-
-@interface MMGridViewCell (Private)
-@property (nonatomic, retain) MMGridView *indexPath;
-@property (nonatomic, assign) MMGridView *gridView;
-@end
 
 
 @interface MMGridView()
 
 @property (nonatomic, retain) UIScrollView *scrollView;
-@property (nonatomic, retain) MMGridLayout *layout;
+@property (nonatomic, assign) MMGridLayout *layout;
 @property (nonatomic) NSUInteger currentPageIndex;
 
 - (void)createSubviews;
@@ -144,7 +139,7 @@
 {
     if (layout == nil) {
         MMGridLayoutType layoutType = [dataSource layoutTypeInGridView:self];
-        self.layout = [MMGridLayout gridLayoutWithType:layoutType itemSize:itemSize dataSource:dataSource andScrollView:scrollView];
+        self.layout = [[MMGridLayout gridLayoutWithType:layoutType itemSize:itemSize dataSource:dataSource andScrollView:scrollView] retain];
     }
     return layout;
 }

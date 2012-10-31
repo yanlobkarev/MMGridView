@@ -20,12 +20,7 @@
 //
 
 #import "MMGridViewCell.h"
-
-
-@interface MMGridViewCell()
-@property (nonatomic, retain) MMGridView *indexPath;
-@property (nonatomic, assign) MMGridView *gridView;
-@end
+#import "MMGridViewCell+Private.h"
 
 
 @implementation MMGridViewCell
@@ -47,7 +42,6 @@
     
     return self;
 }
-
 
 - (void)setIndexPath:(NSIndexPath *)anIndexPath
 {

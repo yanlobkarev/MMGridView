@@ -17,7 +17,8 @@
     return result;
 }
 
-- (NSMutableSet *)visibleIndexPaths {
+- (NSMutableSet *)visibleIndexPaths
+{
     NSMutableSet *paths = [NSMutableSet set];
 
     NSUInteger sections = 1;
@@ -43,7 +44,8 @@
     return paths;
 }
 
-- (CGPoint)_sectionOffset:(NSUInteger)section {       //    scrollView
+- (CGPoint)_sectionOffset:(NSUInteger)section
+{
     switch (layout) {
         case MMGridLayoutPagedHorizontal:   return CGPointMake(scrollView.frame.size.width * section, 0);
         case MMGridLayoutPagedVertical:     return CGPointMake(0, scrollView.frame.size.height * section);
@@ -51,7 +53,8 @@
     }
 }
 
-- (CGPoint)centerForIndexPath:(NSIndexPath *)path {
+- (CGPoint)centerForIndexPath:(NSIndexPath *)path
+{
     CGPoint center = [self _sectionOffset:(NSUInteger)path.section];
 
     NSUInteger row;
@@ -71,7 +74,8 @@
     return center;
 }
 
-- (CGSize)contentSize {
+- (CGSize)contentSize
+{
     CGSize size = scrollView.frame.size;
     NSUInteger sections = [dataSource numberOfSectionsInGridLayout:self];
     switch (layout) {
@@ -126,7 +130,8 @@
     return [dataSource numberOfSectionsInGridLayout:self];
 }
 
-- (BOOL)pagingEnabled {
+- (BOOL)pagingEnabled
+{
     return (layout == MMGridLayoutPagedHorizontal || layout == MMGridLayoutPagedVertical);
 }
 
@@ -151,7 +156,8 @@
     }
 }
 
-- (NSUInteger)currentSectionInScrollView {
+- (NSUInteger)currentSectionInScrollView
+{
     CGSize pageSize = scrollView.frame.size;
     switch (layout) {
         case MMGridLayoutPagedHorizontal: {
