@@ -12,10 +12,26 @@
 {
     MMGridLayout *result = [[MMGridLayout new] autorelease];
     result->scrollView = [scrollView retain];
-    result->dataSource = dataSource;
+    result->dataSource = [dataSource retain];
     result->itemSize = itemSize;
     result->layout = aLayoutType;
     return result;
+}
+
+- (void)dealloc
+{
+    [scrollView release];
+    [dataSource release];
+    [super dealloc];
+}
+
+#pragma mark Visible-Index-Paths
+
+- (CGRect)_visibleRect
+{
+    CGRect rect = scrollView.bounds;
+    rect.origin = scrollView.contentOffset;
+    return rect;
 }
 
 - (CGRect)_rect4Section:(NSUInteger)section {
@@ -36,13 +52,6 @@
     return rect;
 }
 
-- (CGRect)_visibleRect
-{
-    CGRect rect = scrollView.bounds;
-    rect.origin = scrollView.contentOffset;
-    return rect;
-}
-
 - (NSMutableIndexSet *)_visibleSections {
 
     NSMutableIndexSet *visibleSections = [NSMutableIndexSet indexSet];
@@ -57,18 +66,24 @@
     return visibleSections;
 }
 
+- (CGRect)rect4IndexPath:(NSIndexPath *)path
+{
+    CGPoint center = [self centerForIndexPath:path];
+    CGRect rect;
+    rect.origin.x = center.x - itemSize.width/2;
+    rect.origin.y = center.y - itemSize.height/2;
+    rect.size = itemSize;
+    return rect;
+}
+
 - (NSMutableIndexSet *)_visibleIndexesInSection:(NSUInteger)section {
 
     NSMutableIndexSet *indices = [NSMutableIndexSet indexSet];
     CGRect visibleRect = [self _visibleRect];
 
     for (NSUInteger index=0; index<[dataSource gridLayout:self numberOfCellsInSection:section]; index++) {
-        CGPoint center = [self centerForIndexPath:[NSIndexPath indexPathForRow:index inSection:section]];
-        CGRect itemRect;
-        itemRect.origin.x = center.x - itemSize.width/2;
-        itemRect.origin.y = center.y - itemSize.height/2;
-        itemRect.size = itemSize;
 
+        CGRect itemRect = [self rect4IndexPath:[NSIndexPath indexPathForRow:index inSection:section]];
         if (CGRectIntersectsRect(visibleRect, itemRect)) {
             [indices addIndex:index];
         }
@@ -96,6 +111,8 @@
     }
     return paths;
 }
+
+#pragma mark All-Another-Stuff
 
 - (CGPoint)_sectionOffset:(NSUInteger)section
 {

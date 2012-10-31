@@ -78,9 +78,10 @@
 @property (nonatomic) NSUInteger cellMargin;
 
 - (void)reloadData;
-- (NSArray *)allSubviewCells;
+- (NSArray *)allCells;
+- (NSArray *)cells4Section:(NSUInteger)section;
+- (MMGridViewCell *)cell4IndexPath:(NSIndexPath *)indexPath;
 - (id)dequeueReusableCellOfClass:(Class)class;
-- (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath;
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
-
+- (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
 @end

@@ -113,7 +113,7 @@
     [self.scrollView setContentSize:layout.contentSize];
 
     NSMutableSet *visiblePaths = layout.visibleIndexPaths;
-    NSArray *cells = [self allSubviewCells];
+    NSArray *cells = [self allCells];
 
     for (MMGridViewCell *cell in cells) {
         if ([visiblePaths containsObject:cell.indexPath]) {
@@ -189,18 +189,24 @@
 - (void)reloadData
 {
     self.layout = nil;
-    [[self allSubviewCells] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[self allCells] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self _layoutSubviews];
 }
 
-- (NSArray *)allSubviewCells
+- (NSArray *)allCells
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@)", MMGridViewCell.class];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@", MMGridViewCell.class, self];
     NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
     return results;
 }
 
-- (MMGridViewCell *)cellForIndexPath:(NSIndexPath *)indexPath
+- (NSArray *)cells4Section:(NSUInteger)section {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath.section == %d", MMGridViewCell.class, self, section];
+    NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
+    return results;
+}
+
+- (MMGridViewCell *)cell4IndexPath:(NSIndexPath *)indexPath
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath == %@", MMGridViewCell.class, self, indexPath];
     NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
@@ -225,6 +231,12 @@
 
     [scrollView insertSubview:newCell aboveSubview:oldCell];
     [oldCell removeFromSuperview];
+}
+
+- (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated
+{
+    CGRect rect = [self.layout rect4IndexPath:indexPath];
+    [scrollView setContentOffset:rect.origin animated:animated];
 }
 
 - (void)cellWasSelected:(MMGridViewCell *)cell

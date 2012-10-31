@@ -34,6 +34,7 @@ typedef enum {
 - (BOOL)pagingEnabled;
 - (CGSize)contentSize;
 - (CGPoint)centerForIndexPath:(NSIndexPath *)path;
+- (CGRect)rect4IndexPath:(NSIndexPath *)path;
 - (NSMutableSet *)visibleIndexPaths;
 
 @end
