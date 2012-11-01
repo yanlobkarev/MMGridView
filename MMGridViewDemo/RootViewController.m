@@ -39,6 +39,7 @@
 {
     [gridView release];
     [pageControl release];
+    [model release];
     [super dealloc];
 }
 
@@ -55,6 +56,9 @@
 
 - (void)viewDidLoad
 {
+    NSMutableArray *page = [NSMutableArray arrayWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+    model = [[NSMutableArray arrayWithObjects:page, page.mutableCopy, page.mutableCopy, page.mutableCopy, page.mutableCopy, nil] retain];
+
     // Give us a nice title
     self.title = @"MMGridView Demo";
     
@@ -106,13 +110,20 @@
 
 - (NSUInteger)numberOfSectionsInGridLayout:(MMGridLayout *)layout
 {
-    return 5;
+    return model.count;
+}
+
+- (NSMutableArray *)_pageAt:(NSUInteger)page {
+    return [model objectAtIndex:page];
 }
 
 - (NSUInteger)gridLayout:(MMGridLayout *)layout numberOfCellsInSection:(NSUInteger)section {
-    return 5;
+    return [self _pageAt:section].count;
 }
 
+- (NSString *)_str4IndexPath:(NSIndexPath *)path {
+    return [[self _pageAt:(NSUInteger)path.section] objectAtIndex:(NSUInteger)path.row];
+}
 
 - (MMGridViewCell *)gridView:(MMGridView *)_ cellAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -120,7 +131,7 @@
     if (cell == nil) {
         cell = [[[MMGridViewDefaultCell alloc] initWithFrame:CGRectMake(0, 0, 106, 92)] autorelease];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"Cell %d[%d]", indexPath.section, indexPath.row];
+    cell.textLabel.text = [self _str4IndexPath:indexPath];
     cell.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell-image.png"]];
     return cell;
 }
@@ -138,8 +149,16 @@
     return cell;
 }
 
+- (void)_removeStr4IndexPath:(NSIndexPath *)path {
+    [[self _pageAt:(NSUInteger)path.section] removeObjectAtIndex:(NSUInteger)path.row];
+}
+
 - (void)gridView:(MMGridView *)_ didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
+    [gridView deleteCell4IndexPath:indexPath withCompletion:^(BOOL f){
+        NSLog(@"~ we did delete cell at indexPath: %@ ~", indexPath);
+        [self _removeStr4IndexPath:indexPath];
+    }];
 //    AnyViewController *c = [[AnyViewController alloc] initWithNibName:@"AnyViewController" bundle:nil];
 //    [self.navigationController pushViewController:c animated:YES];
 //    [c release];

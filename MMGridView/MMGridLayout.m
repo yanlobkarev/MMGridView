@@ -68,7 +68,7 @@
 
 - (CGRect)rect4IndexPath:(NSIndexPath *)path
 {
-    CGPoint center = [self centerForIndexPath:path];
+    CGPoint center = [self center4IndexPath:path];
     CGRect rect;
     rect.origin.x = center.x - itemSize.width/2;
     rect.origin.y = center.y - itemSize.height/2;
@@ -123,7 +123,7 @@
     }
 }
 
-- (CGPoint)centerForIndexPath:(NSIndexPath *)path
+- (CGPoint)center4IndexPath:(NSIndexPath *)path
 {
     CGPoint center = [self _sectionOffset:(NSUInteger)path.section];
 
@@ -240,6 +240,10 @@
             return 0;
         }
     }
+}
+
+- (NSUInteger)cellsCount4Section:(NSUInteger)section {
+    return [dataSource gridLayout:self numberOfCellsInSection:section];
 }
 
 @end

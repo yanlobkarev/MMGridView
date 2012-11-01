@@ -31,9 +31,10 @@ typedef enum {
 
 + (id)gridLayoutWithType:(MMGridLayoutType)aLayoutType itemSize:(CGSize)itemSize dataSource:(id <MMGridLayoutDataSource>)dataSource andScrollView:(UIScrollView *)scrollView;
 - (NSUInteger)currentSectionInScrollView;
+- (NSUInteger)cellsCount4Section:(NSUInteger)section;
 - (BOOL)pagingEnabled;
 - (CGSize)contentSize;
-- (CGPoint)centerForIndexPath:(NSIndexPath *)path;
+- (CGPoint)center4IndexPath:(NSIndexPath *)path;
 - (CGRect)rect4IndexPath:(NSIndexPath *)path;
 - (NSMutableSet *)visibleIndexPaths;
 
