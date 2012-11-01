@@ -22,6 +22,7 @@
 #import "RootViewController.h"
 #import "AnyViewController.h"
 #import "MMGridViewDefaultCell.h"
+#import "MMGridView+Deleting.h"
 
 
 @interface RootViewController()

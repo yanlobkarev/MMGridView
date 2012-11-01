@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7E05487E137A7412001A803F /* MMGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6EF3A81340A53100DD91EC /* MMGridView.m */; };
 		7E63973B1349CED300823606 /* AnyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6397381349CAEA00823606 /* AnyViewController.xib */; };
 		7E63973C1349CED900823606 /* AnyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6397371349CAEA00823606 /* AnyViewController.m */; };
 		7E6EF37C1340A48600DD91EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6EF37B1340A48600DD91EC /* Foundation.framework */; };
@@ -32,6 +31,11 @@
 		7EBF307F1349F161007AE716 /* MMGridLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE715 /* MMGridLayout.m */; };
 		7EBF307F1349F161007AE718 /* MMGridLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE717 /* MMGridLayout.h */; };
 		7EBF307F1349F161007AE71C /* MMGridViewCell+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */; };
+		7EBF307F1349F161007AE724 /* MMGridView+Reordering.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE723 /* MMGridView+Reordering.m */; };
+		7EBF307F1349F161007AE726 /* MMGridView+Reordering.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE725 /* MMGridView+Reordering.h */; };
+		7EBF307F1349F161007AE728 /* MMGridView+Deleting.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */; };
+		7EBF307F1349F161007AE72A /* MMGridView+Deleting.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE729 /* MMGridView+Deleting.h */; };
+		7EBF307F1349F161007AE72E /* MMGridView+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE72D /* MMGridView+Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +79,11 @@
 		7EBF307F1349F161007AE715 /* MMGridLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridLayout.m; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE717 /* MMGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMGridLayout.h; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridViewCell+Private.h"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE723 /* MMGridView+Reordering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMGridView+Reordering.m"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE725 /* MMGridView+Reordering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Reordering.h"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMGridView+Deleting.m"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE729 /* MMGridView+Deleting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Deleting.h"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE72D /* MMGridView+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +141,7 @@
 		7E6EF37D1340A48600DD91EC /* MMGridView */ = {
 			isa = PBXGroup;
 			children = (
+				7EBF307F1349F161007AE72D /* MMGridView+Private.h */,
 				7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */,
 				7EBF307F1349F161007AE717 /* MMGridLayout.h */,
 				7EBF307F1349F161007AE715 /* MMGridLayout.m */,
@@ -142,6 +152,7 @@
 				7EBF307D1349F161007AE714 /* MMGridViewCell.m */,
 				7E79DC20135240430085C23D /* MMGridViewDefaultCell.h */,
 				7E79DC21135240430085C23D /* MMGridViewDefaultCell.m */,
+				7EBF307F1349F161007AE722 /* editing */,
 			);
 			path = MMGridView;
 			sourceTree = "<group>";
@@ -192,6 +203,17 @@
 			name = iPad;
 			sourceTree = "<group>";
 		};
+		7EBF307F1349F161007AE722 /* editing */ = {
+			isa = PBXGroup;
+			children = (
+				7EBF307F1349F161007AE729 /* MMGridView+Deleting.h */,
+				7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */,
+				7EBF307F1349F161007AE725 /* MMGridView+Reordering.h */,
+				7EBF307F1349F161007AE723 /* MMGridView+Reordering.m */,
+			);
+			path = editing;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -204,6 +226,9 @@
 				7E79DC22135240430085C23D /* MMGridViewDefaultCell.h in Headers */,
 				7EBF307F1349F161007AE718 /* MMGridLayout.h in Headers */,
 				7EBF307F1349F161007AE71C /* MMGridViewCell+Private.h in Headers */,
+				7EBF307F1349F161007AE726 /* MMGridView+Reordering.h in Headers */,
+				7EBF307F1349F161007AE72A /* MMGridView+Deleting.h in Headers */,
+				7EBF307F1349F161007AE72E /* MMGridView+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +276,7 @@
 		7E6EF36F1340A48600DD91EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = metaminded;
 			};
 			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */;
@@ -296,6 +322,8 @@
 				7EBF307F1349F161007AE714 /* MMGridViewCell.m in Sources */,
 				7E79DC23135240430085C23D /* MMGridViewDefaultCell.m in Sources */,
 				7EBF307F1349F161007AE716 /* MMGridLayout.m in Sources */,
+				7EBF307F1349F161007AE724 /* MMGridView+Reordering.m in Sources */,
+				7EBF307F1349F161007AE728 /* MMGridView+Deleting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +335,6 @@
 				7E6EF3D81340B52E00DD91EC /* AppDelegate.m in Sources */,
 				7E6EF3DE1340B52E00DD91EC /* RootViewController.m in Sources */,
 				7E63973C1349CED900823606 /* AnyViewController.m in Sources */,
-				7E05487E137A7412001A803F /* MMGridView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +396,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -382,6 +410,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -393,7 +422,8 @@
 				DSTROOT = /tmp/MMGridView.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -405,7 +435,8 @@
 				DSTROOT = /tmp/MMGridView.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -419,9 +450,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridViewDemo/MMGridViewDemo-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MMGridViewDemo/MMGridViewDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -436,10 +468,11 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridViewDemo/MMGridViewDemo-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MMGridViewDemo/MMGridViewDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

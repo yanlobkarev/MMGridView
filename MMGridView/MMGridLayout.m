@@ -246,4 +246,15 @@
     return [dataSource gridLayout:self numberOfCellsInSection:section];
 }
 
+- (BOOL)isValidIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath != nil) {
+        if (indexPath.section < [dataSource numberOfSectionsInGridLayout:self]) {
+            if (indexPath.row < [dataSource gridLayout:self numberOfCellsInSection:(NSUInteger)indexPath.section]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 @end

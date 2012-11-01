@@ -66,13 +66,13 @@
     NSMutableDictionary *reusable;
 }
 
-@property (nonatomic, retain, readonly) UIScrollView *scrollView;
 @property (nonatomic, assign) IBOutlet id<MMGridViewDataSource> dataSource;
 @property (nonatomic, assign) IBOutlet id<MMGridViewDelegate> delegate;
 
 @property (nonatomic, readonly) BOOL isAnimating;
 
 @property (nonatomic, readonly) MMGridLayout *layout;
+@property (nonatomic, retain) UIScrollView *scrollView;
 @property (nonatomic, readonly) NSUInteger numberOfRows;
 @property (nonatomic, readonly) NSUInteger numberOfColumns;
 @property (nonatomic, readonly) NSUInteger numberOfPages;
@@ -87,21 +87,5 @@
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 - (void)moveCellAt:(NSIndexPath *)from to:(NSIndexPath *)to;
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
-@end
 
-
-typedef void (^MMAnimationCompletion)(BOOL f);
-
-@interface MMGridView (Editing)
-- (void)reorderCellFrom:(NSIndexPath *)from to:(NSIndexPath *)to completion:(MMAnimationCompletion)completion;
-
-- (void)deleteCell4IndexPath:(NSIndexPath *)path withCompletion:(MMAnimationCompletion)completion;
-@end
-
-
-@interface NSIndexPath (plus)
-- (id)plusOne;
-- (id)minusOne;
-- (BOOL)greaterOrEqualThan:(NSIndexPath *)path;
-- (BOOL)lessOrEqualThan:(NSIndexPath *)path;
 @end
