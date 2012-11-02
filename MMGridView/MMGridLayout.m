@@ -258,7 +258,26 @@
 }
 
 - (NSIndexPath *)indexPath4Point:(CGPoint)point {
-    //  todo: implement
+
+    for (NSUInteger section = 0; section<[dataSource numberOfSectionsInGridLayout:self]; section++) {
+
+        CGRect rect = [self _rect4Section:section];
+        if (CGRectContainsPoint(rect, point)) {
+
+            NSUInteger rows = self.numberOfRows;
+            NSUInteger cols = self.numberOfColumns;
+            for (NSUInteger index = 0; index < rows*cols; index++) {
+
+                NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:section];
+                rect = [self rect4IndexPath:path];
+                if (CGRectContainsPoint(rect, point)) {
+
+                    return path;
+                }
+            }
+        }
+    }
+
     return nil;
 }
 

@@ -333,7 +333,7 @@
 
 #pragma mark Cut & Paste
 
-- (void)cutCellFromIndexPath:(NSIndexPath *)path
+- (MMGridViewCell *)cutCellFromIndexPath:(NSIndexPath *)path
 {
     MMGridViewCell *cell = [self cell4IndexPath:path];
 
@@ -341,18 +341,47 @@
         [self _raiseNonExistentCellAt:path];
     }
 
+    ReplacementCell *replacement = [ReplacementCell replacementCell4Origin:cell];
+    [scrollView addSubview:replacement];
+
     cell.indexPath = cell.indexPath.hover;
+    return cell;
 }
 
-- (void)pasteCellAtIndexPath:(NSIndexPath *)path
+- (NSArray *)_replacements4Cell:(MMGridViewCell *)cell
 {
-    MMGridViewCell *cutted = [self cell4IndexPath:path];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND origin == %@", ReplacementCell.class, self, cell];
+    NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
+    return results;
+}
 
-    if (cutted == nil) {
-        [self _raiseNonExistentCellAt:path];
+- (void)_raiseTryingToPasteNotHoveredCellFrom:(NSIndexPath *)from
+{
+    [NSException raise:@"TryingToPasteNotHoveredCellException" format:@"...at %@", from];
+}
+
+- (void)_raiseTryingToPasteAtHoveredPath:(NSIndexPath *)at {
+    [NSException raise:@"TryingToPasteCellAtHoveredPathException" format:@"...at %@", at];
+}
+
+- (void)pasteCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)at
+{
+    if (cell == nil) {
+        [self _raiseNonExistentCellAt:at];
     }
 
-    cutted.indexPath = cutted.indexPath.unhover;
+    if (cell.indexPath.isHovered == NO) {
+        [self _raiseTryingToPasteNotHoveredCellFrom:cell.indexPath];
+    }
+
+    if (at.isHovered) {
+        [self _raiseTryingToPasteAtHoveredPath:at];
+    }
+
+    cell.indexPath = at;
+
+    NSArray *replacements = [self _replacements4Cell:cell];
+    [replacements makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
 @end

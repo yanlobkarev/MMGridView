@@ -56,6 +56,9 @@
     }
 
     MMGridViewCell *memCell = [self cell4IndexPath:from];
+    if (memCell == nil) {
+        [self _raiseNonExistentCellAt:from];
+    }
 
     [self _didBeginReorderingAnimation];
 

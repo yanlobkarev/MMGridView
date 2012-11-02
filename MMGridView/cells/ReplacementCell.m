@@ -17,6 +17,7 @@
     replacement.frame = CGRectMake(0, 0, 2, 2);
     replacement.center = origin.center;
     replacement.indexPath = origin.indexPath;
+    replacement.gridView = origin.gridView;
     return replacement;
 }
 

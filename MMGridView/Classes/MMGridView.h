@@ -87,8 +87,9 @@
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 - (void)moveCellAt:(NSIndexPath *)from to:(NSIndexPath *)to;
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
-- (void)cutCellFromIndexPath:(NSIndexPath *)path;
-- (void)pasteCellAtIndexPath:(NSIndexPath *)path;
+- (MMGridViewCell *)cutCellFromIndexPath:(NSIndexPath *)path;
+
+- (void)pasteCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)at;
 @end
 
 
