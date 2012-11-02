@@ -19,7 +19,7 @@
 - (void)_didEndDisappearingAnimation4Cell:(MMGridViewCell *)cell completion:(MMAnimationCompletion)completion
 {
     NSUInteger section = (NSUInteger) cell.indexPath.section;
-    NSUInteger cellsCount = [self.layout cellsCount4Section:section];
+    NSUInteger cellsCount = [self cells4Section:section].count;
     NSIndexPath *last = [NSIndexPath indexPathForRow:( cellsCount - 1 ) inSection:section];
     [self reorderCellFrom:cell.indexPath to:last completion:^(BOOL f){
 
@@ -37,6 +37,10 @@
 
     if (path == nil) {
         [self _raiseNonExistentCellAt:path];
+    }
+
+    if (completion == nil) {
+        completion = ^(BOOL f){};
     }
 
     [UIView animateWithDuration:.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{

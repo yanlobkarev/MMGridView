@@ -257,4 +257,9 @@
     return NO;
 }
 
+- (NSIndexPath *)indexPath4Point:(CGPoint)point {
+    //  todo: implement
+    return nil;
+}
+
 @end

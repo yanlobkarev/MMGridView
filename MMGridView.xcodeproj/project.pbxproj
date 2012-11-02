@@ -36,6 +36,8 @@
 		7EBF307F1349F161007AE728 /* MMGridView+Deleting.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */; };
 		7EBF307F1349F161007AE72A /* MMGridView+Deleting.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE729 /* MMGridView+Deleting.h */; };
 		7EBF307F1349F161007AE72E /* MMGridView+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE72D /* MMGridView+Private.h */; };
+		7EBF307F1349F161007AE731 /* ReplacementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE730 /* ReplacementCell.m */; };
+		7EBF307F1349F161007AE733 /* ReplacementCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBF307F1349F161007AE732 /* ReplacementCell.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,8 +76,8 @@
 		7E79DC21135240430085C23D /* MMGridViewDefaultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridViewDefaultCell.m; sourceTree = "<group>"; };
 		7E8B82D113B867BA00E5CA3F /* cell-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-image.png"; sourceTree = "<group>"; };
 		7E9B3DEE13D6CB7B00D5E314 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		7EBF307C1349F161007AE714 /* MMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMGridViewCell.h; path = Classes/MMGridViewCell.h; sourceTree = "<group>"; };
-		7EBF307D1349F161007AE714 /* MMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMGridViewCell.m; path = Classes/MMGridViewCell.m; sourceTree = "<group>"; };
+		7EBF307C1349F161007AE714 /* MMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMGridViewCell.h; path = MMGridViewCell.h; sourceTree = "<group>"; };
+		7EBF307D1349F161007AE714 /* MMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMGridViewCell.m; path = MMGridViewCell.m; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE715 /* MMGridLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridLayout.m; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE717 /* MMGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMGridLayout.h; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridViewCell+Private.h"; sourceTree = "<group>"; };
@@ -84,6 +86,8 @@
 		7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMGridView+Deleting.m"; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE729 /* MMGridView+Deleting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Deleting.h"; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE72D /* MMGridView+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Private.h"; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE730 /* ReplacementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplacementCell.m; sourceTree = "<group>"; };
+		7EBF307F1349F161007AE732 /* ReplacementCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplacementCell.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,17 +146,13 @@
 			isa = PBXGroup;
 			children = (
 				7EBF307F1349F161007AE72D /* MMGridView+Private.h */,
-				7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */,
 				7EBF307F1349F161007AE717 /* MMGridLayout.h */,
 				7EBF307F1349F161007AE715 /* MMGridLayout.m */,
 				7E6EF37E1340A48600DD91EC /* Supporting Files */,
 				7E6EF3A71340A53100DD91EC /* MMGridView.h */,
 				7E6EF3A81340A53100DD91EC /* MMGridView.m */,
-				7EBF307C1349F161007AE714 /* MMGridViewCell.h */,
-				7EBF307D1349F161007AE714 /* MMGridViewCell.m */,
-				7E79DC20135240430085C23D /* MMGridViewDefaultCell.h */,
-				7E79DC21135240430085C23D /* MMGridViewDefaultCell.m */,
 				7EBF307F1349F161007AE722 /* editing */,
+				7EBF307F1349F161007AE72F /* cells */,
 			);
 			path = MMGridView;
 			sourceTree = "<group>";
@@ -214,6 +214,20 @@
 			path = editing;
 			sourceTree = "<group>";
 		};
+		7EBF307F1349F161007AE72F /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				7EBF307F1349F161007AE732 /* ReplacementCell.h */,
+				7EBF307F1349F161007AE730 /* ReplacementCell.m */,
+				7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */,
+				7EBF307C1349F161007AE714 /* MMGridViewCell.h */,
+				7EBF307D1349F161007AE714 /* MMGridViewCell.m */,
+				7E79DC20135240430085C23D /* MMGridViewDefaultCell.h */,
+				7E79DC21135240430085C23D /* MMGridViewDefaultCell.m */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -229,6 +243,7 @@
 				7EBF307F1349F161007AE726 /* MMGridView+Reordering.h in Headers */,
 				7EBF307F1349F161007AE72A /* MMGridView+Deleting.h in Headers */,
 				7EBF307F1349F161007AE72E /* MMGridView+Private.h in Headers */,
+				7EBF307F1349F161007AE733 /* ReplacementCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +339,7 @@
 				7EBF307F1349F161007AE716 /* MMGridLayout.m in Sources */,
 				7EBF307F1349F161007AE724 /* MMGridView+Reordering.m in Sources */,
 				7EBF307F1349F161007AE728 /* MMGridView+Deleting.m in Sources */,
+				7EBF307F1349F161007AE731 /* ReplacementCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,6 +23,7 @@
 #import "MMGridViewCell+Private.h"
 #import "MMGridView+Private.h"
 #import "MMGridView.h"
+#import "ReplacementCell.h"
 
 
 @interface MMGridView()
@@ -199,18 +200,18 @@
 
 - (NSArray *)allCells
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@", MMGridViewCell.class, self];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath.isHovered == %d", MMGridViewCell.class, self, NO];
     NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
     return results;
 }
 
 - (NSArray *)cells4Section:(NSUInteger)section {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath.section == %d", MMGridViewCell.class, self, section];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath.section == %d AND indexPath.isHovered == %d", MMGridViewCell.class, self, section, NO];
     NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
     return results;
 }
 
-- (MMGridViewCell *)cell4IndexPath:(NSIndexPath *)indexPath
+- (id)cell4IndexPath:(NSIndexPath *)indexPath
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND gridView == %@ AND indexPath == %@", MMGridViewCell.class, self, indexPath];
     NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
@@ -257,7 +258,9 @@
         [self _raiseNonExistentCellAt:from];
     }
 
-    fromCell.center = [self.layout center4IndexPath:to];
+    if (fromCell.indexPath.isHovered == NO) {
+        fromCell.center = [self.layout center4IndexPath:to];
+    }
     fromCell.indexPath = to;
 }
 
@@ -328,6 +331,49 @@
     return cell;
 }
 
+#pragma mark Cut & Paste
+
+- (void)cutCellFromIndexPath:(NSIndexPath *)path
+{
+    MMGridViewCell *cell = [self cell4IndexPath:path];
+
+    if (cell == nil) {
+        [self _raiseNonExistentCellAt:path];
+    }
+
+    cell.indexPath = cell.indexPath.hover;
+}
+
+- (void)pasteCellAtIndexPath:(NSIndexPath *)path
+{
+    MMGridViewCell *cutted = [self cell4IndexPath:path];
+
+    if (cutted == nil) {
+        [self _raiseNonExistentCellAt:path];
+    }
+
+    cutted.indexPath = cutted.indexPath.unhover;
+}
+
 @end
 
 
+@implementation NSIndexPath (Hovered)
+
+- (NSIndexPath *)hover {
+    if ([self isHovered]) {
+        return self;
+    }
+    return [self indexPathByAddingIndex:NSNotFound];    //  [0, 1] -> [0, 1, NSNotFound]
+}
+
+- (NSIndexPath *)unhover {
+    return [self indexPathByRemovingLastIndex];         //  [0, 1, NSNotFound] -> [0, 1]
+}
+
+- (BOOL)isHovered
+{
+    return self.length > 2;
+}
+
+@end

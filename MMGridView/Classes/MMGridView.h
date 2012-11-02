@@ -82,10 +82,19 @@
 - (void)reloadData;
 - (NSArray *)allCells;
 - (NSArray *)cells4Section:(NSUInteger)section;
-- (MMGridViewCell *)cell4IndexPath:(NSIndexPath *)indexPath;
+- (id)cell4IndexPath:(NSIndexPath *)indexPath;      //  return descendant of MMGridViewCell or nil
 - (id)dequeueReusableCellOfClass:(Class)class;
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 - (void)moveCellAt:(NSIndexPath *)from to:(NSIndexPath *)to;
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
-
+- (void)cutCellFromIndexPath:(NSIndexPath *)path;
+- (void)pasteCellAtIndexPath:(NSIndexPath *)path;
 @end
+
+
+@interface NSIndexPath (Hovered)
+- (NSIndexPath *)hover;
+- (NSIndexPath *)unhover;
+@property (nonatomic, readonly) BOOL isHovered;     //  grid-view doesn't influence on cells with `hovered` coordinates
+@end
+

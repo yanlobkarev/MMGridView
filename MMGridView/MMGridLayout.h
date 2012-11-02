@@ -38,7 +38,7 @@ typedef enum {
 - (CGRect)rect4IndexPath:(NSIndexPath *)path;
 - (NSMutableSet *)visibleIndexPaths;
 - (BOOL)isValidIndexPath:(NSIndexPath *)indexPath;
-
+- (NSIndexPath *)indexPath4Point:(CGPoint)point;
 @end
 
 
