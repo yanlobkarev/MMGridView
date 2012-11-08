@@ -114,7 +114,7 @@
 
 #pragma mark All-Another-Stuff
 
-- (CGPoint)_sectionOffset:(NSUInteger)section
+- (CGPoint)_sectionOffset:(NSInteger)section
 {
     switch (layout) {
         case MMGridLayoutPagedHorizontal:   return CGPointMake(scrollView.frame.size.width * section, 0);
@@ -125,7 +125,7 @@
 
 - (CGPoint)center4IndexPath:(NSIndexPath *)path
 {
-    CGPoint center = [self _sectionOffset:(NSUInteger)path.section];
+    CGPoint center = [self _sectionOffset:path.section];
 
     NSUInteger row;
     NSUInteger column;
