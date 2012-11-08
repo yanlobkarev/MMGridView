@@ -322,6 +322,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)_
 {
     [self _layoutCells];
+    [self updateCurrentPageIndex];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)_
