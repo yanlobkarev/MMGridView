@@ -85,6 +85,7 @@
 - (id)cell4IndexPath:(NSIndexPath *)indexPath;      //  return descendant of MMGridViewCell or nil
 - (id)dequeueReusableCellOfClass:(Class)class;
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
+- (void)reloadCellAtIndexPath:(NSIndexPath *)path;
 - (void)moveCellAt:(NSIndexPath *)from to:(NSIndexPath *)to;
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (MMGridViewCell *)cutCellFromIndexPath:(NSIndexPath *)path;

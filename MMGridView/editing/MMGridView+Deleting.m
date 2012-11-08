@@ -35,7 +35,7 @@
 
     MMGridViewCell *cell = [self cell4IndexPath:path];
 
-    if (path == nil) {
+    if (cell == nil) {
         [self _raiseNonExistentCellAt:path];
     }
 

@@ -238,6 +238,24 @@
     [oldCell removeFromSuperview];
 }
 
+- (void)reloadCellAtIndexPath:(NSIndexPath *)path
+{
+    MMGridViewCell *cell = [self cell4IndexPath:path];
+
+    if (cell == nil) {
+        [self _raiseNonExistentCellAt:path];
+    }
+
+    MMGridViewCell *fresh = [dataSource gridView:self cellAtIndexPath:path];
+    fresh.gridView = self;
+    fresh.indexPath = cell.indexPath;
+    fresh.center = cell.center;
+    [scrollView insertSubview:fresh aboveSubview:cell];
+
+    [self reuseCell:cell];
+    [cell removeFromSuperview];
+}
+
 - (void)_raiseInvalidInputIndexPaths:(id)one and:(id)second {
     [NSException raise:@"~ InvalidInputException." format:@"params: %@ and %@", one, second];
 }
