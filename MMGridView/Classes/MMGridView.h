@@ -79,6 +79,7 @@
 @property (nonatomic, readonly) NSUInteger currentPageIndex;
 @property (nonatomic) NSUInteger cellMargin;
 
+- (void)updateAppearance;
 - (void)reloadData;
 - (NSArray *)allCells;
 - (NSArray *)cells4Section:(NSUInteger)section;

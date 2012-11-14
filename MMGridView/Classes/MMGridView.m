@@ -124,7 +124,7 @@
             [visiblePaths removeObject:cell.indexPath];
         } else {
 
-            //  since it cell is not visible
+            //  since this cell is not visible
             //  we remove 'em
             [self reuseCell:cell];
             [cell removeFromSuperview];
@@ -189,6 +189,11 @@
     return self.layout.numberOfSections;
 }
 
+- (void)updateAppearance {
+    self.layout  = nil;
+    [self layout];
+    [self _layoutCells];
+}
 
 - (void)reloadData
 {
@@ -308,7 +313,11 @@
     NSUInteger page = [layout currentSectionInScrollView];
 
     if (page != currentPageIndex) {
+
+        [self willChangeValueForKey:@"currentPageIndex"];
         currentPageIndex = page;
+        [self didChangeValueForKey:@"currentPageIndex"];
+
         if (delegate && [delegate respondsToSelector:@selector(gridView:changedPageToIndex:)]) {
             [self.delegate gridView:self changedPageToIndex:self.currentPageIndex];
         }
@@ -322,7 +331,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)_
 {
     [self _layoutCells];
-    [self updateCurrentPageIndex];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)_
@@ -352,8 +360,17 @@
 
 #pragma mark Cut & Paste
 
+- (void)_raiseTryingToCutHoveredCellAt:(NSIndexPath *)at
+{
+    [NSException raise:@"TryingToCutHoveredCellException" format:@"...at %@", at];
+}
+
 - (MMGridViewCell *)cutCellFromIndexPath:(NSIndexPath *)path
 {
+    if (path.isHovered == YES) {
+        [self _raiseTryingToCutHoveredCellAt:path];
+    }
+
     MMGridViewCell *cell = [self cell4IndexPath:path];
 
     if (cell == nil) {
@@ -362,6 +379,8 @@
 
     ReplacementCell *replacement = [ReplacementCell replacementCell4Origin:cell];
     [scrollView addSubview:replacement];
+
+    NSLog(@"~ cutCellFromIndexPath:%@ ~", path);
 
     cell.indexPath = cell.indexPath.hover;
     return cell;
@@ -400,6 +419,9 @@
     cell.indexPath = at;
 
     NSArray *replacements = [self _replacements4Cell:cell];
+
+    NSLog(@"~ pasteCell:%@ replacements:%@ ~", at, replacements);
+
     [replacements makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 

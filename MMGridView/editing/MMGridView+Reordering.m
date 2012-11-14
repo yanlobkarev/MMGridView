@@ -28,9 +28,7 @@
 - (void)_didEndShiftingBeforeInsertingCell:(MMGridViewCell *)cell to:(NSIndexPath *)to completion:(MMAnimationCompletion)competion
 {
     cell.indexPath = to;
-    [self _moveFrom:to to:to withDelay:0.1 completion:^(BOOL f){
-        [self _didEndReorderAnimationWithCompletion:competion];
-    }];
+    [self _didEndReorderAnimationWithCompletion:competion];
 }
 
 - (void)reorderCellFrom:(NSIndexPath *)from to:(NSIndexPath *)to completion:(MMAnimationCompletion)completion
@@ -61,6 +59,7 @@
     }
 
     [self _didBeginReorderingAnimation];
+    memCell.frame = [self.layout rect4IndexPath:to];    //  note that at start we assigning position first but indexPath assigned at the end of animation
 
     float delay = .0;
     if ([from greaterOrEqualThan:to]) {
