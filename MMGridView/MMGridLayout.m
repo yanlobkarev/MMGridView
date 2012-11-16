@@ -257,28 +257,42 @@
     return NO;
 }
 
+- (NSInteger)_section4point:(CGPoint)point {
+    switch (layout) {
+        case MMGridLayoutPagedHorizontal: return (int) point.x / (int) scrollView.bounds.size.width;
+        case MMGridLayoutPagedVertical: return (int) point.y / (int) scrollView.bounds.size.height;
+        default: return 0;
+    }
+}
+
+- (NSInteger)_row4point:(CGPoint)point {
+
+    if (layout == MMGridLayoutHorizontal) {
+
+        //  rows fixed, so calculating columns
+        NSInteger row = (int) point.x / (int) itemSize.width;
+        NSInteger column = (int) point.y / (int) itemSize.height;
+        return column * self.numberOfRows + row;
+    } else {
+
+        //  number of columns fixed
+        NSInteger row = (int) point.y / (int) itemSize.height;
+        NSInteger column = (int) point.x / (int) itemSize.width;
+        return row * self.numberOfColumns + column;
+    }
+}
+
 - (NSIndexPath *)indexPath4Point:(CGPoint)point {
 
-    for (NSUInteger section = 0; section<[dataSource numberOfSectionsInGridLayout:self]; section++) {
+    NSInteger section = [self _section4point:point];
+    CGPoint offset = [self _sectionOffset:section];
 
-        CGRect rect = [self _rect4Section:section];
-        if (CGRectContainsPoint(rect, point)) {
+    point.x -= offset.x;
+    point.y -= offset.y;
 
-            NSUInteger rows = self.numberOfRows;
-            NSUInteger cols = self.numberOfColumns;
-            for (NSUInteger index = 0; index < rows*cols; index++) {
+    NSInteger row = [self _row4point:point];
 
-                NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:section];
-                rect = [self rect4IndexPath:path];
-                if (CGRectContainsPoint(rect, point)) {
-
-                    return path;
-                }
-            }
-        }
-    }
-
-    return nil;
+    return [NSIndexPath indexPathForRow:row inSection:section];
 }
 
 @end

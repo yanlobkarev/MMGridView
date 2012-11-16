@@ -20,6 +20,7 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <QuartzCore/QuartzCore.h>
 #import "MMGridViewCell+Private.h"
 #import "MMGridView+Private.h"
 #import "MMGridView.h"
@@ -120,14 +121,18 @@
     for (MMGridViewCell *cell in cells) {
         if ([visiblePaths containsObject:cell.indexPath]) {
 
-            cell.center = [layout center4IndexPath:cell.indexPath];
+            if (cell.animating == NO) {
+                cell.center = [layout center4IndexPath:cell.indexPath];
+            }
             [visiblePaths removeObject:cell.indexPath];
         } else {
 
             //  since this cell is not visible
             //  we remove 'em
-            [self reuseCell:cell];
-            [cell removeFromSuperview];
+            if (cell.animating == NO) {
+                [self reuseCell:cell];
+                [cell removeFromSuperview];
+            }
         }
     }
 
@@ -347,6 +352,7 @@
 #pragma mark Reusing cells
 
 - (void)reuseCell:(MMGridViewCell *)cell {
+
     NSString *key = NSStringFromClass(cell.class);
     [reusable setObject:cell forKey:key];
 }
@@ -354,6 +360,11 @@
 - (id)dequeueReusableCellOfClass:(Class)class {
     NSString *key = NSStringFromClass(class);
     MMGridViewCell *cell = [[[reusable objectForKey:key] retain] autorelease];
+
+    [cell.layer removeAllAnimations];
+    cell.transform = CGAffineTransformIdentity;
+    cell.alpha = 1;
+
     [reusable removeObjectForKey:key];
     return cell;
 }
@@ -379,8 +390,6 @@
 
     ReplacementCell *replacement = [ReplacementCell replacementCell4Origin:cell];
     [scrollView addSubview:replacement];
-
-    NSLog(@"~ cutCellFromIndexPath:%@ ~", path);
 
     cell.indexPath = cell.indexPath.hover;
     return cell;
@@ -420,8 +429,6 @@
 
     NSArray *replacements = [self _replacements4Cell:cell];
 
-    NSLog(@"~ pasteCell:%@ replacements:%@ ~", at, replacements);
-
     [replacements makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
@@ -438,7 +445,20 @@
 }
 
 - (NSIndexPath *)unhover {
+    if ([self isHovered] == NO) {
+        return self;
+    }
     return [self indexPathByRemovingLastIndex];         //  [0, 1, NSNotFound] -> [0, 1]
+}
+
+- (NSInteger)section
+{
+    return [self indexAtPosition:0];
+}
+
+- (NSInteger)row
+{
+    return [self indexAtPosition:1];
 }
 
 - (BOOL)isHovered

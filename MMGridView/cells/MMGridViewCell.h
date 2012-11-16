@@ -28,6 +28,7 @@
     MMGridView *gridView;
 }
 
+@property (nonatomic, readonly) BOOL animating;
 @property (nonatomic, readonly) MMGridView *gridView;
 @property (nonatomic, readonly) NSIndexPath *indexPath;
 

@@ -25,6 +25,7 @@
 
 @implementation MMGridViewCell
 
+@synthesize animating;
 @synthesize gridView;
 @synthesize indexPath;
 
@@ -51,6 +52,11 @@
 - (void)setGridView:(MMGridView *)aGridView
 {
     gridView = aGridView;
+}
+
+- (void)setAnimating:(BOOL)anAnimating
+{
+    animating = anAnimating;
 }
 
 // ----------------------------------------------------------------------------------

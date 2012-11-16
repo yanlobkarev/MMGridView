@@ -1,4 +1,9 @@
+#import <CoreGraphics/CoreGraphics.h>
 #import "MMGridView+Deleting.h"
+#import "MMGridViewCell+Private.h"
+
+
+#define SHRINK_SCALE .005
 
 
 @implementation MMGridView (Deleting)
@@ -12,6 +17,7 @@
     [cell removeFromSuperview];
     cell.transform = CGAffineTransformIdentity;
     cell.alpha = 1;
+    cell.animating = NO;
     [self reuseCell:cell];
     completion(YES);
 }
@@ -43,12 +49,13 @@
         completion = ^(BOOL f){};
     }
 
+    cell.animating = YES;
     [UIView animateWithDuration:.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         [self setAnimating:YES];
-        cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, .05, .05);
+        cell.transform = CGAffineTransformScale(CGAffineTransformIdentity, SHRINK_SCALE, SHRINK_SCALE);
+        cell.alpha = 0;
     } completion:^(BOOL f){
         [self setAnimating:NO];
-        cell.alpha = 0;
         [self _didEndDisappearingAnimation4Cell:cell completion:completion];
     }];
 }

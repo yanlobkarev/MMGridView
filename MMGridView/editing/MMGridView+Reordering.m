@@ -59,7 +59,7 @@
     }
 
     [self _didBeginReorderingAnimation];
-    memCell.frame = [self.layout rect4IndexPath:to];    //  note that at start we assigning position first but indexPath assigned at the end of animation
+    memCell.center = [self.layout center4IndexPath:to];    //  note that at start we assigning position first but indexPath assigned at the end of animation
 
     float delay = .0;
     if ([from greaterOrEqualThan:to]) {
