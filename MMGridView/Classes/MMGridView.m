@@ -112,6 +112,7 @@
 {
     if (self.dataSource == nil) return;
 
+    [UIView setAnimationsEnabled:NO];
     self.scrollView.pagingEnabled = self.layout.pagingEnabled;
     [self.scrollView setContentSize:layout.contentSize];
 
@@ -147,6 +148,7 @@
         cell.indexPath = path;
         [scrollView addSubview:cell];
     }
+    [UIView setAnimationsEnabled:YES];
 }
 
 - (void)drawRect:(CGRect)rect
