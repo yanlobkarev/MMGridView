@@ -426,9 +426,9 @@
     }
 
     cell.indexPath = at;
+    cell.gridView = self;
 
     NSArray *replacements = [self _replacements4Cell:cell];
-
     [replacements makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
