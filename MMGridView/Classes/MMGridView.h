@@ -84,10 +84,12 @@
 - (NSArray *)allCells;
 - (NSArray *)cells4Section:(NSUInteger)section;
 - (id)cell4IndexPath:(NSIndexPath *)indexPath;      //  return descendant of MMGridViewCell or nil
+- (NSArray *)cellsGreaterOrEqualThan:(NSIndexPath *)from lessOrEqualThan:(NSIndexPath *)to;
 - (id)dequeueReusableCellOfClass:(Class)class;
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell;
 - (void)reloadCellAtIndexPath:(NSIndexPath *)path;
 - (void)moveCellAt:(NSIndexPath *)from to:(NSIndexPath *)to;
+- (void)adjustPosition4CellAt:(NSIndexPath *)path;
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated;
 - (MMGridViewCell *)cutCellFromIndexPath:(NSIndexPath *)path;
 

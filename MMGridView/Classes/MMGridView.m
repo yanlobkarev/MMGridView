@@ -237,6 +237,19 @@
     }
 }
 
+- (NSArray *)cellsGreaterOrEqualThan:(NSIndexPath *)from lessOrEqualThan:(NSIndexPath *)to
+{
+    if (from == nil || to == nil) {
+        return nil;
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self isKindOfClass: %@) AND (self.indexPath lessOrEqualThan: %@) AND (self.indexPath greaterOrEqualThan: %@) AND gridView == %@ ", MMGridViewCell.class, to, from, self];
+    NSArray *results = [scrollView.subviews filteredArrayUsingPredicate:predicate];
+    results = [results sortedArrayUsingComparator:^(MMGridViewCell *one, MMGridViewCell *another) {
+        return [one.indexPath compare:another.indexPath];
+    }];
+    return results;
+}
+
 - (void)replaceCell:(MMGridViewCell *)oldCell withCell:(MMGridViewCell *)newCell
 {
     if (oldCell.superview != scrollView) return;
@@ -292,6 +305,11 @@
         fromCell.center = [self.layout center4IndexPath:to];
     }
     fromCell.indexPath = to;
+}
+
+- (void)adjustPosition4CellAt:(NSIndexPath *)path
+{
+    [self moveCellAt:path to:path];
 }
 
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated

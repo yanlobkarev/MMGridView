@@ -4,15 +4,6 @@
 
 @implementation MMGridView (Reordering)
 
-- (void)_moveFrom:(NSIndexPath *)from to:(NSIndexPath *)to withDelay:(CGFloat)delay completion:(MMAnimationCompletion)completion
-{
-    [UIView animateWithDuration:.1 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
-
-        [self moveCellAt:from to:to];
-
-    } completion:completion];
-}
-
 - (void)_didBeginReorderingAnimation {
     [self setAnimating:YES];
     NSLog(@"[Reorder]");
@@ -23,12 +14,6 @@
     NSLog(@"[/Reorder]");
     [self setAnimating:NO];
     completion(YES);
-}
-
-- (void)_didEndShiftingBeforeInsertingCell:(MMGridViewCell *)cell to:(NSIndexPath *)to completion:(MMAnimationCompletion)competion
-{
-    cell.indexPath = to;
-    [self _didEndReorderAnimationWithCompletion:competion];
 }
 
 - (void)reorderCellFrom:(NSIndexPath *)from to:(NSIndexPath *)to completion:(MMAnimationCompletion)completion
@@ -53,44 +38,71 @@
         return;
     }
 
-    MMGridViewCell *memCell = [self cell4IndexPath:from];
-    if (memCell == nil) {
+    MMGridViewCell *fromCell = [self cell4IndexPath:from];
+    if (fromCell == nil) {
         [self _raiseNonExistentCellAt:from];
     }
 
     [self _didBeginReorderingAnimation];
-    memCell.center = [self.layout center4IndexPath:to];    //  note that at start we assigning position first but indexPath assigned at the end of animation
+    NSMutableArray *animatingCells = [NSMutableArray array];
 
-    float delay = .0;
     if ([from greaterOrEqualThan:to]) {
 
-        NSIndexPath *start = from.minusOne;
-        for (NSIndexPath *i = start; [i greaterOrEqualThan:to] && [i lessOrEqualThan:start]; i = i.minusOne) {   //   for ( i= from - 1; i >= to; i--)
+        for (MMGridViewCell *cell in [self cellsGreaterOrEqualThan:to lessOrEqualThan:from.minusOne]) {  //   for ( i= from - 1; i >= to; i--)
 
-            [self _moveFrom:i to:i.plusOne withDelay:delay completion:^(BOOL f) {
-
-                if ([i isEqual:to]) {
-                    [self _didEndShiftingBeforeInsertingCell:memCell to:to completion:completion];
-                }
-            }];
-
-            delay += .1;
+            cell.indexPath = cell.indexPath.plusOne;
+            cell.animating = YES;
+            [animatingCells insertObject:cell atIndex:0];
         }
+
     } else {
 
-        for (NSIndexPath *i = from.plusOne; [i lessOrEqualThan:to]; i = i.plusOne) {            //  for (i = from + 1; i <= to; i++)
+        for (MMGridViewCell *cell in [self cellsGreaterOrEqualThan:from.plusOne lessOrEqualThan:to]) {  //  for (i = from + 1; i <= to; i++)
 
-            [self _moveFrom:i to:i.minusOne withDelay:delay completion:^(BOOL f) {
-
-                if ([i isEqual:to]) {
-                    [self _didEndShiftingBeforeInsertingCell:memCell to:to completion:completion];
-                }
-
-            }];
-            delay += .1;
+            cell.indexPath = cell.indexPath.minusOne;
+            cell.animating = YES;
+            [animatingCells addObject:cell];
         }
+
+    }
+
+    fromCell.indexPath = to;
+    fromCell.animating = YES;
+    [animatingCells insertObject:fromCell atIndex:0];
+
+    float delay = .0;
+    for (MMGridViewCell *cell in animatingCells) {
+
+        if (cell == animatingCells.lastObject) {
+
+            [self _adjustCellPosition:cell withDelay:delay completion:^(BOOL f){
+
+                [self _didEndReorderAnimationWithCompletion:completion];
+            }];
+        } else {
+
+            [self _adjustCellPosition:cell withDelay:delay completion:nil];
+        }
+        delay += .1;
     }
 }
+
+- (void)_adjustCellPosition:(MMGridViewCell *)cell withDelay:(CGFloat)delay completion:(MMAnimationCompletion)completion {
+
+    NSLog(@"\t~ adjust [%d, %d] cell position ~", cell.indexPath.section, cell.indexPath.row);
+    [UIView animateWithDuration:.1 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
+
+        [self adjustPosition4CellAt:cell.indexPath];
+
+    } completion:^(BOOL f){
+
+        cell.animating = NO;
+        if (completion != nil) {
+            completion(f);
+        }
+    }];
+}
+
 @end
 
 
