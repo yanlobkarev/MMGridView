@@ -27,7 +27,8 @@
 #import "ReplacementCell.h"
 
 
-@interface MMGridView()
+@interface MMGridView ()
+@property (nonatomic, retain) MMGridLayout *layout;      // duplicate in MMGridView+Private
 - (void)createSubviews;
 - (void)cellWasSelected:(MMGridViewCell *)cell;
 - (void)cellWasDoubleTapped:(MMGridViewCell *)cell;

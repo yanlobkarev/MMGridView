@@ -89,7 +89,6 @@
 
 - (void)_adjustCellPosition:(MMGridViewCell *)cell withDelay:(CGFloat)delay completion:(MMAnimationCompletion)completion {
 
-    NSLog(@"\t~ adjust [%d, %d] cell position ~", cell.indexPath.section, cell.indexPath.row);
     [UIView animateWithDuration:.1 delay:delay options:UIViewAnimationOptionCurveEaseInOut animations:^{
 
         [self adjustPosition4CellAt:cell.indexPath];

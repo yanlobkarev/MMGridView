@@ -439,7 +439,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -452,7 +452,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
