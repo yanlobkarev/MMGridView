@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
+   LastUpgradeVersion = "0450"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -31,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7E6EF3C71340B52E00DD91EC"
-            BuildableName = "MMGridViewDemo.app"
-            BlueprintName = "MMGridViewDemo"
+            BlueprintIdentifier = "7E6EF3771340A48600DD91EC"
+            BuildableName = "libMMGridView.a"
+            BlueprintName = "MMGridView"
             ReferencedContainer = "container:MMGridView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

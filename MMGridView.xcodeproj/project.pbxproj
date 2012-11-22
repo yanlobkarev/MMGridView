@@ -76,8 +76,8 @@
 		7E79DC21135240430085C23D /* MMGridViewDefaultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridViewDefaultCell.m; sourceTree = "<group>"; };
 		7E8B82D113B867BA00E5CA3F /* cell-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-image.png"; sourceTree = "<group>"; };
 		7E9B3DEE13D6CB7B00D5E314 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "iPad/en.lproj/MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		7EBF307C1349F161007AE714 /* MMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMGridViewCell.h; path = MMGridViewCell.h; sourceTree = "<group>"; };
-		7EBF307D1349F161007AE714 /* MMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMGridViewCell.m; path = MMGridViewCell.m; sourceTree = "<group>"; };
+		7EBF307C1349F161007AE714 /* MMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMGridViewCell.h; sourceTree = "<group>"; };
+		7EBF307D1349F161007AE714 /* MMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridViewCell.m; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE715 /* MMGridLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMGridLayout.m; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE717 /* MMGridLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMGridLayout.h; sourceTree = "<group>"; };
 		7EBF307F1349F161007AE71B /* MMGridViewCell+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridViewCell+Private.h"; sourceTree = "<group>"; };
@@ -291,7 +291,7 @@
 		7E6EF36F1340A48600DD91EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = metaminded;
 			};
 			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */;
