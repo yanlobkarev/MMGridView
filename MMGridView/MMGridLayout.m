@@ -231,10 +231,10 @@
     CGSize pageSize = scrollView.frame.size;
     switch (layout) {
         case MMGridLayoutPagedHorizontal: {
-            return (NSUInteger) floor((scrollView.contentOffset.x - pageSize.width / 2) / pageSize.width) + 1;
+            return (NSUInteger) (floor((scrollView.contentOffset.x - pageSize.width / 2) / pageSize.width) + 1);
         }
         case MMGridLayoutPagedVertical : {
-            return (NSUInteger) floor((scrollView.contentOffset.y - pageSize.height / 2) / pageSize.height) + 1;
+            return (NSUInteger) (floor((scrollView.contentOffset.y - pageSize.height / 2) / pageSize.height) + 1);
         }
         default: {
             return 0;
