@@ -301,7 +301,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = metaminded;
 			};
-			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "mmgridview" */;
+			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -511,7 +511,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "mmgridview" */ = {
+		7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E6EF3991340A48600DD91EC /* Debug */,
