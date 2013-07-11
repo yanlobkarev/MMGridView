@@ -46,6 +46,7 @@
 - (void)gridView:(MMGridView *)gridView didSelectCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)gridView:(MMGridView *)gridView didDoubleTapCell:(MMGridViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)gridView:(MMGridView *)gridView changedPageToIndex:(NSUInteger)index;
+- (void)gridView:(MMGridView *)gridView didScroll:(CGPoint)offset;
 @end
 
 // ----------------------------------------------------------------------------------

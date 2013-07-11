@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F2FE3BD8E413F9A9A620185 /* MMGridView+Inserting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2FEC2F5AB431AB27AB693E /* MMGridView+Inserting.h */; };
+		6F2FE9E31E2FDB174CB708E4 /* MMGridView+Inserting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FE70A3C844BE0415B55F9 /* MMGridView+Inserting.m */; };
 		7E63973B1349CED300823606 /* AnyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6397381349CAEA00823606 /* AnyViewController.xib */; };
 		7E63973C1349CED900823606 /* AnyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6397371349CAEA00823606 /* AnyViewController.m */; };
 		7E6EF37C1340A48600DD91EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6EF37B1340A48600DD91EC /* Foundation.framework */; };
@@ -51,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F2FE70A3C844BE0415B55F9 /* MMGridView+Inserting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MMGridView+Inserting.m"; sourceTree = "<group>"; };
+		6F2FEC2F5AB431AB27AB693E /* MMGridView+Inserting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMGridView+Inserting.h"; sourceTree = "<group>"; };
 		7E6397361349CAEA00823606 /* AnyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyViewController.h; sourceTree = "<group>"; };
 		7E6397371349CAEA00823606 /* AnyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnyViewController.m; sourceTree = "<group>"; };
 		7E6397381349CAEA00823606 /* AnyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnyViewController.xib; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 				7EBF307F1349F161007AE727 /* MMGridView+Deleting.m */,
 				7EBF307F1349F161007AE725 /* MMGridView+Reordering.h */,
 				7EBF307F1349F161007AE723 /* MMGridView+Reordering.m */,
+				6F2FE70A3C844BE0415B55F9 /* MMGridView+Inserting.m */,
+				6F2FEC2F5AB431AB27AB693E /* MMGridView+Inserting.h */,
 			);
 			path = editing;
 			sourceTree = "<group>";
@@ -244,6 +250,7 @@
 				7EBF307F1349F161007AE72A /* MMGridView+Deleting.h in Headers */,
 				7EBF307F1349F161007AE72E /* MMGridView+Private.h in Headers */,
 				7EBF307F1349F161007AE733 /* ReplacementCell.h in Headers */,
+				6F2FE3BD8E413F9A9A620185 /* MMGridView+Inserting.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +301,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = metaminded;
 			};
-			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */;
+			buildConfigurationList = 7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "mmgridview" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -340,6 +347,7 @@
 				7EBF307F1349F161007AE724 /* MMGridView+Reordering.m in Sources */,
 				7EBF307F1349F161007AE728 /* MMGridView+Deleting.m in Sources */,
 				7EBF307F1349F161007AE731 /* ReplacementCell.m in Sources */,
+				6F2FE9E31E2FDB174CB708E4 /* MMGridView+Inserting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +448,9 @@
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-all_load";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -453,7 +463,9 @@
 				GCC_PREFIX_HEADER = "MMGridView/MMGridView-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-all_load";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -499,7 +511,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "MMGridView" */ = {
+		7E6EF3721340A48600DD91EC /* Build configuration list for PBXProject "mmgridview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E6EF3991340A48600DD91EC /* Debug */,

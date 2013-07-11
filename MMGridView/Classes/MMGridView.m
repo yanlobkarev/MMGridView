@@ -315,6 +315,9 @@
 
 - (void)scrollToIndexPathOrigin:(NSIndexPath *)indexPath animated:(BOOL)animated
 {
+    if (animated == YES) {
+        [self setAnimating:YES];
+    }
     CGRect rect = [self.layout rect4IndexPath:indexPath];
     [scrollView setContentOffset:rect.origin animated:animated];
 }
@@ -357,6 +360,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)_
 {
     [self _layoutCells];
+    if (delegate && [delegate respondsToSelector:@selector(gridView:didScroll:)] == YES)
+    {
+        [delegate gridView:self didScroll:scrollView.contentOffset];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)_
@@ -367,6 +374,7 @@
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)_
 {
+    [self setAnimating:NO];
     [self updateCurrentPageIndex];
 }
 

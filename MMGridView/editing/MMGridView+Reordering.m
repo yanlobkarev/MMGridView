@@ -9,7 +9,7 @@
     NSLog(@"[Reorder]");
 }
 
-- (void)_didEndReorderAnimationWithCompletion:(MMAnimationCompletion)completion
+- (void)_didEndShiftAnimationWithCompletion:(MMAnimationCompletion)completion
 {
     NSLog(@"[/Reorder]");
     [self setAnimating:NO];
@@ -77,7 +77,7 @@
 
             [self _adjustCellPosition:cell withDelay:delay completion:^(BOOL f){
 
-                [self _didEndReorderAnimationWithCompletion:completion];
+                [self _didEndShiftAnimationWithCompletion:completion];
             }];
         } else {
 
