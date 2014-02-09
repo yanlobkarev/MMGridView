@@ -90,8 +90,9 @@
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight; 
     self.contentMode = UIViewContentModeRedraw;
     self.backgroundColor = [UIColor clearColor];
-    
-    self.scrollView = [[[UIScrollView alloc] initWithFrame:self.bounds] autorelease];
+
+//    self.scrollView = [[[UIScrollView alloc] initWithFrame:self.bounds] autorelease];
+    self.scrollView = [[[MyScrollView alloc] initWithFrame:self.bounds] autorelease];
     self.scrollView.delegate = self;
     self.scrollView.backgroundColor = [UIColor clearColor];
     self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -319,6 +320,8 @@
         [self setAnimating:YES];
     }
     CGRect rect = [self.layout rect4IndexPath:indexPath];
+    NSLog(@"~ %@=rect4IndexPath:%@ ~", NSStringFromCGRect(rect), indexPath);
+
     [scrollView setContentOffset:rect.origin animated:animated];
 }
 
@@ -495,4 +498,28 @@
     return self.length > 2;
 }
 
+@end
+
+
+@implementation MyScrollView
+
+@synthesize blockingTextViewScroll;
+
+
+-(void)setContentOffset:(CGPoint)contentOffset
+{
+    if(!self.blockingTextViewScroll)
+    {
+        [super setContentOffset:contentOffset];
+    }
+}
+
+
+-(void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated
+{
+    if(!self.blockingTextViewScroll)
+    {
+        [super setContentOffset:contentOffset animated:animated];
+    }
+}
 @end

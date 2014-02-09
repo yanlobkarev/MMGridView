@@ -104,3 +104,7 @@
 @property (nonatomic, readonly) BOOL isHovered;     //  grid-view doesn't influence on cells with `hovered` coordinates
 @end
 
+
+@interface MyScrollView : UIScrollView
+@property (nonatomic, readwrite) BOOL blockingTextViewScroll;
+@end
